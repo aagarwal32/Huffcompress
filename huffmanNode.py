@@ -24,6 +24,15 @@ class HNode:
     def setFrequency(self, frequency):
         self.__frequency = frequency
 
+    def setLeft(self, left):
+        self.__left = left
+
+    def setRight(self, right):
+        self.__right = right
+
+    def setParent(self, parent):
+        self.__parent = parent
+
     bool = isRoot = lambda self: self.__parent == None
     bool = isParent = lambda self: self.__left != None or self.__right != None
     bool = isLeaf = lambda self: self.__left == None and self.__right == None

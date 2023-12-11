@@ -14,7 +14,6 @@ class HNode:
     def __lt__(self, other):
         return self.__frequency < other.__frequency
 
-    # getters
     def getSymbol(self):
         return self.__symbol
     
@@ -30,7 +29,6 @@ class HNode:
     def getParent(self):
         return self.__parent
     
-    # setters
     def setSymbol(self, symbol):
         self.__symbol = symbol
     

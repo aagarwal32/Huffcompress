@@ -9,7 +9,7 @@ class HuffmanTree:
 
 
     # creates nodes containing character and frequency data and pushes them into a priority queue
-    def prioritizeNodes(self, inputStr):
+    def prioritize_nodes(self, inputStr):
         # dictionary to store frequency of each character
         freq = {}
         for char in inputStr:
@@ -21,18 +21,18 @@ class HuffmanTree:
 
 
     # assigns binary '0' for left child and binary '1' for right child
-    def getPrefixCodes(self, root, prefixCodes, code):
+    def getprefixcodes(self, root, prefixcodes, code):
         if root.isLeaf():
-            prefixCodes[root.getSymbol()] = code
+            prefixcodes[root.getSymbol()] = code
             return
 
-        self.getPrefixCodes(root.getLeft(), prefixCodes, code + "0")
-        self.getPrefixCodes(root.getRight(), prefixCodes, code + "1")
+        self.getprefixcodes(root.getLeft(), prefixcodes, code + "0")
+        self.getprefixcodes(root.getRight(), prefixcodes, code + "1")
 
 
     # compress creates binary tree and obtains compressed binary code from the input string
     def compress(self, inputStr):
-        self.prioritizeNodes(inputStr)
+        self.prioritize_nodes(inputStr)
 
         # pop two nodes from priority queue, create parent node, and push parent node into priority queue
         while len(self.__heap) > 1:
@@ -49,20 +49,45 @@ class HuffmanTree:
         root = heapq.heappop(self.__heap)
         root.setParent(None)
 
+        serial_code = self.serialize(root)
+
         # get prefix codes for each character
-        prefixCodes = {}
-        self.getPrefixCodes(root, prefixCodes, "")
+        prefixcodes = {}
+        self.getprefixcodes(root, prefixcodes, "")
 
         # assign prefix code for each character in input string
         code_string = ""
         for char in inputStr:
-            code_string += prefixCodes[char] 
+            code_string += prefixcodes[char]
 
-        return code_string
+        return code_string, serial_code 
 
 
     def serialize(self, root):
-        pass
+        stack1 = []
+        stack2 = []
+        
+        # pop nodes from first stack until empty
+        stack1.append(root)
+        while len(stack1) > 0:
+            node = stack1.pop()
+            stack2.append(node)
+
+            # explore sub trees of each node and add to stack 1
+            if node.getLeft() != None:
+                stack1.append(node.getLeft())
+            if node.getRight() != None:
+                stack1.append(node.getRight())
+        
+        serial = ""
+        while len(stack2) > 0:
+            top = stack2.pop()
+            if top.isLeaf():
+                serial += "L" + top.getSymbol()
+            if top.isParent():
+                serial += "B"
+
+        return serial
 
 
     def decompress(self, inputCode, serialCode):

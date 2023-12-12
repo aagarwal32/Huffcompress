@@ -9,10 +9,10 @@ class HuffmanTree:
 
 
     # creates nodes containing character and frequency data and pushes them into a priority queue
-    def prioritize_nodes(self, inputStr):
+    def prioritize_nodes(self, input_string):
         # dictionary to store frequency of each character
         freq = {}
-        for char in inputStr:
+        for char in input_string:
             freq[char] = freq.get(char, 0) + 1
 
         # create nodes containing character and frequency data and push into priority queue
@@ -21,18 +21,18 @@ class HuffmanTree:
 
 
     # assigns binary '0' for left child and binary '1' for right child
-    def getprefixcodes(self, root, prefixcodes, code):
+    def get_prefix_codes(self, root, prefix_codes, code):
         if root.isLeaf():
-            prefixcodes[root.getSymbol()] = code
+            prefix_codes[root.getSymbol()] = code
             return
 
-        self.getprefixcodes(root.getLeft(), prefixcodes, code + "0")
-        self.getprefixcodes(root.getRight(), prefixcodes, code + "1")
+        self.get_prefix_codes(root.getLeft(), prefix_codes, code + "0")
+        self.get_prefix_codes(root.getRight(), prefix_codes, code + "1")
 
 
     # compress creates binary tree and obtains compressed binary code from the input string
-    def compress(self, inputStr):
-        self.prioritize_nodes(inputStr)
+    def compress(self, input_string):
+        self.prioritize_nodes(input_string)
 
         # pop two nodes from priority queue, create parent node, and push parent node into priority queue
         while len(self.__heap) > 1:
@@ -52,13 +52,13 @@ class HuffmanTree:
         serial_code = self.serialize(root)
 
         # get prefix codes for each character
-        prefixcodes = {}
-        self.getprefixcodes(root, prefixcodes, "")
+        prefix_codes = {}
+        self.get_prefix_codes(root, prefix_codes, "")
 
         # assign prefix code for each character in input string
         code_string = ""
-        for char in inputStr:
-            code_string += prefixcodes[char]
+        for char in input_string:
+            code_string += prefix_codes[char]
 
         return code_string, serial_code 
 
@@ -79,6 +79,7 @@ class HuffmanTree:
             if node.getRight() != None:
                 stack1.append(node.getRight())
         
+        # create serial code by examining nodes in stack 2
         serial = ""
         while len(stack2) > 0:
             top = stack2.pop()
@@ -90,16 +91,47 @@ class HuffmanTree:
         return serial
 
 
-    def decompress(self, inputCode, serialCode):
-        pass
+    def decompress(self, input_code, serial_code):
+        stack = []
+        root_node = None
 
+        # use serial code to reconstruct huffman tree
+        for i, c in enumerate(serial_code):
+            # if branch (B), pop two nodes from stack and create parent node
+            if c == "B":
+                right_child = stack.pop()
+                left_child = stack.pop()
 
-def main():
-    # temp input string
-    input_str = "aaaabbbcc"
-    huffcompress = HuffmanTree()
-    print(huffcompress.compress(input_str))
+                parent = HNode(None, None)
+                parent.setLeft(left_child)
+                parent.setRight(right_child)
 
-if __name__ == "__main__":
-    main()
+                stack.append(parent)
+            # if leaf (L), create leaf node and push into stack
+            elif c == "L":
+                leaf = HNode(serial_code[i+1], None)
+                stack.append(leaf)
+                i += 1
+        
+        # last node in stack is the root node
+        if len(stack) > 0:
+            root_node = stack.pop()
 
+        # decompress input code using huffman tree
+        decompressed = ""
+        current = root_node
+
+        # perform left traversal if bit is 0, right traversal if bit is 1
+        for bit in input_code:
+            if bit == "0":
+                current = current.getLeft()
+            else:
+                current = current.getRight()
+
+            # if current node is leaf, add character to decompressed string
+            if current.isLeaf():
+                decompressed += current.getSymbol()
+                # reset current node to root node for next traversal
+                current = root_node
+        
+        return decompressed

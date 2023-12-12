@@ -32,6 +32,8 @@ class HuffmanTree:
 
     # compress creates binary tree and obtains compressed binary code from the input string
     def compress(self, input_string):
+        if not input_string:
+            raise ValueError("Error! File is empty.")
         self.prioritize_nodes(input_string)
 
         # pop two nodes from priority queue, create parent node, and push parent node into priority queue
@@ -92,6 +94,9 @@ class HuffmanTree:
 
 
     def decompress(self, input_code, serial_code):
+        if not input_code or not serial_code:
+            raise ValueError("Error! File is empty.")
+
         stack = []
         root_node = None
 

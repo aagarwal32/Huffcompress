@@ -37,6 +37,13 @@ class TestHuffCompress(unittest.TestCase):
         DECOMPRESSED_TEXT = hc.decompress(code, serial)
         self.assertEqual(INPUT_TEXT, DECOMPRESSED_TEXT)
 
+    def test_decompress4(self):
+        hc = HuffmanTree()
+        INPUT_TEXT = """LLLBBB"""
+        code, serial = hc.compress(INPUT_TEXT)
+        DECOMPRESSED_TEXT = hc.decompress(code, serial)
+        self.assertEqual(INPUT_TEXT, DECOMPRESSED_TEXT)
+
     def test_compress_with_empty_input(self):
         hc = HuffmanTree()
         with self.assertRaises(ValueError):

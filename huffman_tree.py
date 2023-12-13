@@ -1,5 +1,5 @@
 # this python file initializes the huffman tree and other huffcompress functions
-from huffmanNode import HNode
+from huffman_node import HNode
 import heapq
 
 

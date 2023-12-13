@@ -1,5 +1,5 @@
 import unittest
-from huffmanTree import HuffmanTree
+from huffman_tree import HuffmanTree
 
 class TestHuffCompress(unittest.TestCase):
     def test_decompress1(self):

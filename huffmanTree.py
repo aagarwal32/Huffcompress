@@ -101,9 +101,10 @@ class HuffmanTree:
         root_node = None
 
         # use serial code to reconstruct huffman tree
-        for i, c in enumerate(serial_code):
+        i = 0
+        while i < len(serial_code):
             # if branch (B), pop two nodes from stack and create parent node
-            if c == "B":
+            if serial_code[i] == "B":
                 right_child = stack.pop()
                 left_child = stack.pop()
 
@@ -113,10 +114,12 @@ class HuffmanTree:
 
                 stack.append(parent)
             # if leaf (L), create leaf node and push into stack
-            elif c == "L":
-                leaf = HNode(serial_code[i+1], None)
-                stack.append(leaf)
+            elif serial_code[i] == "L":
                 i += 1
+                symbol = serial_code[i]
+                leaf = HNode(symbol, None)
+                stack.append(leaf)
+            i += 1
         
         # last node in stack is the root node
         if len(stack) > 0:

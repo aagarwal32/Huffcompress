@@ -8,14 +8,16 @@ class HuffmanTree:
         self.__heap = []
 
 
-    # creates nodes containing character and frequency data and pushes them into a priority queue
+    # creates nodes containing character and frequency data and pushes them
+    # into a priority queue
     def prioritize_nodes(self, input_string):
         # dictionary to store frequency of each character
         freq = {}
         for char in input_string:
             freq[char] = freq.get(char, 0) + 1
 
-        # create nodes containing character and frequency data and push into priority queue
+        # create nodes containing character and frequency data and push into
+        # priority queue
         for char, frequency in freq.items():
             heapq.heappush(self.__heap, HNode(char, frequency))
 
@@ -30,13 +32,15 @@ class HuffmanTree:
         self.get_prefix_codes(root.getRight(), prefix_codes, code + "1")
 
 
-    # compress creates binary tree and obtains compressed binary code from the input string
+    # compress creates binary tree and obtains compressed binary code from
+    # the input string
     def compress(self, input_string):
         if not input_string:
             raise ValueError("Error! File is empty.")
         self.prioritize_nodes(input_string)
 
-        # pop two nodes from priority queue, create parent node, and push parent node into priority queue
+        # pop two nodes from priority queue, create parent node, and push
+        # parent node into priority queue
         while len(self.__heap) > 1:
             min_1 = heapq.heappop(self.__heap)
             min_2 = heapq.heappop(self.__heap)

@@ -51,11 +51,11 @@ class HuffFile:
         bit_string, serial_code = ht.compress(input_data)
 
         # convert bit string to NumPy array of integers
-        bit_array = np.array(list(map(int, bit_string)))
+        code_bit_array = np.array(list(map(int, bit_string)))
 
         # pack binary data
         # takes bit array and packs each element into 8-bit chunks
-        pack_data = np.packbits(bit_array)
+        pack_code_data = np.packbits(code_bit_array)
 
         # get length of bit string and pack into 32-bit chunk
         bit_length = np.array([len(bit_string)], dtype=np.uint32)
@@ -63,17 +63,21 @@ class HuffFile:
         # convert bit_length to 1D array
         bit_length = np.frombuffer(bit_length.tobytes(), dtype=np.uint8)
 
-        # convert serial code string to bytes using UTF-8 encoding
-        serial_data = np.array(list(serial_code.encode("utf-8")))
+        # converts each character in serial_code to binary. The binary string
+        # is then converted to an array of bits which is then packed into
+        # 8-bit chunks
+        serial_data_bin = ''.join(format(ord(ch), '08b') for ch in serial_code)
+        serial_data_bit_array = np.array(list(map(int, serial_data_bin)))
+        pack_serial_data = np.packbits(serial_data_bit_array)
 
         # marker to separate different sections of compressed data
         marker = np.array([MARKER_VALUE], dtype=np.uint8)
 
         # concatenate bit length, serial code, and packed data
         # separated by markers
-        compressed_data = np.concatenate([pack_data, marker, 
+        compressed_data = np.concatenate([pack_code_data, marker, 
                                           bit_length, marker,
-                                          serial_data, marker])
+                                          pack_serial_data, marker])
 
         # write compressed data to file
         compressed_data.tofile(filename)

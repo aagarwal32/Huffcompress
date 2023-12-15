@@ -2,3 +2,4 @@ __pycache__/huffmanNode.cpython-311.pyc
 __pycache__/huffmanTree.cpython-311.pyc
 __pycache__/test_huffcompress.cpython-311.pyc
 *.pyc
+.DS_Store

@@ -5,14 +5,14 @@ import numpy as np
 # set marker value to separate different sections of compressed data
 MARKER_VALUE = 255
 # compressed file extension name
-COMPRESSED_FILE_EXTENSION = ".huff"
+# COMPRESSED_FILE_EXTENSION = ".huff"
 
 class HuffFile:
 
     def __init__(self):
         pass
 
-    # make sure file is appropriate before compressing/decompressing
+    # makes sure file is appropriate before compressing/decompressing
     def _validate_file(self, filename):
         # confirm filename is valid
         if not filename:
@@ -60,6 +60,9 @@ class HuffFile:
         # get length of bit string and pack into 32-bit chunk
         bit_length = np.array([len(bit_string)], dtype=np.uint32)
 
+        # convert bit_length to 1D array
+        bit_length = np.frombuffer(bit_length.tobytes(), dtype=np.uint8)
+
         # convert serial code string to bytes using UTF-8 encoding
         serial_data = np.array(list(serial_code.encode("utf-8")))
 
@@ -69,8 +72,16 @@ class HuffFile:
         # concatenate bit length, serial code, and packed data
         # separated by markers
         compressed_data = np.concatenate([pack_data, marker, 
-                                          bit_length.tobytes(), marker,
+                                          bit_length, marker,
                                           serial_data, marker])
 
         # write compressed data to file
-        compressed_data.tofile(filename + COMPRESSED_FILE_EXTENSION)
+        compressed_data.tofile(filename)
+
+
+def main():
+    hf = HuffFile()
+    hf.compress_file("test2.txt")
+
+if __name__ == "__main__":
+    main()

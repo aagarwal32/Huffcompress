@@ -4,13 +4,28 @@ import heapq
 
 
 class HuffmanTree:
+    """
+    This class provides methods for prioritizing nodes based on the frequency
+    of each character, building the Huffman tree, assigning prefix codes to 
+    each character, serializing, and deserializing the Huffman tree.
+    """
+
     def __init__(self):
         self.__heap = []
 
 
-    # creates nodes containing character and frequency data and pushes them
-    # into a priority queue
     def prioritize_nodes(self, input_string):
+        """
+        Creates nodes containing character and frequency data and 
+        pushes them into a priority queue.
+
+        Args:
+            input_string (str): The string to be compressed.
+
+        Returns:
+            None
+        """
+
         # dictionary to store frequency of each character
         freq = {}
         for char in input_string:
@@ -22,8 +37,22 @@ class HuffmanTree:
             heapq.heappush(self.__heap, HNode(char, frequency))
 
 
-    # assigns binary '0' for left child and binary '1' for right child
     def get_prefix_codes(self, root, prefix_codes, code):
+        """
+        This function traverses the Huffman tree and assigns a prefix code to 
+        each character -- determined by the path from the root to the leaf 
+        node representing the character (with '0' for left and '1' for right).
+
+        Args:
+            root (HNode): The root node of the Huffman tree.
+            prefix_codes (dict): A dictionary to store the prefix codes for
+            each character.
+            code (str): The current prefix code
+
+        Returns:
+            None
+        """
+
         if root.isLeaf():
             prefix_codes[root.getSymbol()] = code
             return
@@ -32,9 +61,23 @@ class HuffmanTree:
         self.get_prefix_codes(root.getRight(), prefix_codes, code + "1")
 
 
-    # compress creates binary tree and obtains compressed binary code from
-    # the input string
     def compress(self, input_string):
+        """
+        This function compresses the input string by building the Huffman tree
+        to obtain the code_string (concatenation of prefix codes) and the 
+        serial code.
+
+        Args:
+            input_string (str): The string to be compressed.
+
+        Raises:
+            ValueError: If the input string is empty.
+
+        Returns:
+            code_string (str): input_string but with respective prefix codes
+            serial_code (str): instructions to rebuild huffman tree
+        """
+
         if not input_string:
             raise ValueError("Error! File is empty.")
         self.prioritize_nodes(input_string)
@@ -70,6 +113,18 @@ class HuffmanTree:
 
 
     def serialize(self, root):
+        """
+        This function uses two stacks to perform a post-order traversal of the 
+        Huffman tree. The serialized string can be used to reconstruct the tree
+        for decompression.
+
+        Args:
+            root (HNode): The root node of the Huffman tree.
+
+        Returns:
+            serial (str): The serialized Huffman tree.
+        """
+
         stack1 = []
         stack2 = []
         
@@ -98,6 +153,21 @@ class HuffmanTree:
 
 
     def decompress(self, input_code, serial_code):
+        """
+        This function reconstructs the Huffman tree from the serialized code. 
+        Then, it traverses the Huffman tree according to the input code to 
+        decompress it back into the original string.
+
+        Args:
+            input_code (str): The compressed binary code.
+            serial_code (str): The serialized Huffman tree.
+
+        Raises:
+            ValueError: If the input code or serialized code is empty.
+
+        Returns:
+            decompressed (str): The decompressed, original input string.
+        """
         if not input_code or not serial_code:
             raise ValueError("Error! File is empty.")
 

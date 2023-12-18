@@ -39,7 +39,7 @@ class HuffFile:
             raise ValueError("Error! File is empty.")
 
 
-    def is_text_file(self, filename):
+    def _is_text_file(self, filename):
         """
         Checks if a file is a text file.
 
@@ -60,7 +60,7 @@ class HuffFile:
         return True
     
 
-    def find_marker_sequence(self, data, marker_sequence):
+    def _find_marker_sequence(self, data, marker_sequence):
         """
         This function finds the starting indices in the input file where
         the marker sequence begins
@@ -100,7 +100,7 @@ class HuffFile:
         self._validate_file(filename)
 
         # validate if file is of the right type
-        if not self.is_text_file(filename):
+        if not self._is_text_file(filename):
             raise ValueError("Error! File is not a plain text file.")
         
         # open file and read input data
@@ -161,7 +161,7 @@ class HuffFile:
         read_data = np.fromfile(filename, dtype=np.uint8)
 
         # array that contains starting indices of MARKER_SEQUENCE in read_data
-        marker_location = self.find_marker_sequence(read_data, MARKER_SEQUENCE)
+        marker_location = self._find_marker_sequence(read_data, MARKER_SEQUENCE)
 
         # extract packed data, length, and serial data from compressed file
         packed_data = read_data[:marker_location[0]]

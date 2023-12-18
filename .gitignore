@@ -3,3 +3,4 @@ __pycache__/huffmanTree.cpython-311.pyc
 __pycache__/test_huffcompress.cpython-311.pyc
 *.pyc
 .DS_Store
+test_huffcompress/test_large_html_file.html

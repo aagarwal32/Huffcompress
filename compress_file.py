@@ -6,7 +6,7 @@ import numpy as np
 MARKER_VALUE = 255
 # marker occurance defines the uniqueness of the marker. Higher
 # marker occurance equals lower chance of input text mistaken as a marker
-MARKER_OCCURANCE = 100
+MARKER_OCCURANCE = 10
 # creates marker with value repeated by occurance
 MARKER_SEQUENCE = np.array([MARKER_VALUE]*MARKER_OCCURANCE, dtype=np.uint8)
 # compressed file extension name

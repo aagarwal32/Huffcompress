@@ -14,6 +14,12 @@
   After a file is compressed, a ".huff" extension is added. Only files with ".huff" extension added during compression can be decompressed.
 </p>
 
+## Collaborators
+<ul>
+  <li>Arjun Agarwal (<a href="https://www.linkedin.com/in/agw02/">LinkedIn</a>)</li>
+  <li>Harshavardan Yuvaraj (<a href="https://www.linkedin.com/in/harsha-yuvaraj/">LinkedIn</a>)</li>
+</ul>
+
 ## First Release (In progress)
 <ul>
   <li>File compression........ completed.</li>

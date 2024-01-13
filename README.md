@@ -24,5 +24,5 @@
 <ul>
   <li>File compression........ completed.</li>
   <li>File decompression........ completed.</li>
-  <li>GUI that allows users to use this tool....... in-progress.</li>
+  <li>GUI that allows users to use this tool........ completed.</li>
 </ul>

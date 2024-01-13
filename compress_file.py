@@ -1,4 +1,5 @@
 import os
+import tempfile
 from huffman_tree import HuffmanTree
 import numpy as np
 
@@ -6,7 +7,7 @@ import numpy as np
 MARKER_VALUE = 255
 # marker occurance defines the uniqueness of the marker. Higher
 # marker occurance equals lower chance of input text mistaken as a marker
-MARKER_OCCURANCE = 10
+MARKER_OCCURANCE = 15
 # creates marker with value repeated by occurance
 MARKER_SEQUENCE = np.array([MARKER_VALUE]*MARKER_OCCURANCE, dtype=np.uint8)
 # compressed file extension name
@@ -93,15 +94,18 @@ class HuffFile:
             filename (str): The name of the file being compressed.
 
         Returns:
-            None
+            new_dir (str): The absolute location of the compressed file
         """
         
         # validate if file exists, is readable, and is not empty
-        self._validate_file(filename)
+        try:
+            self._validate_file(filename)
 
-        # validate if file is of the right type
-        if not self._is_text_file(filename):
-            raise ValueError("Error! File is not a plain text file.")
+            # validate if file is of the right type
+            if not self._is_text_file(filename):
+                raise ValueError("Error! File is not a plain text file.")
+        except ValueError as e:
+            raise CompressionError(str(e))
         
         # open file and read input data
         with open(filename, "r") as file:
@@ -133,9 +137,21 @@ class HuffFile:
         compressed_data = np.concatenate([pack_code_data, MARKER_SEQUENCE, 
                                           bit_len_bytes, MARKER_SEQUENCE,
                                           pack_serial_data, MARKER_SEQUENCE])
+        
+        # create new unique directory for the compressed file to be placed in
+        curr_dir = os.path.dirname(filename) # path to current directory of the file being compressed
+        temp_dir = tempfile.TemporaryDirectory(dir=curr_dir)
+        new_dir = os.path.basename(temp_dir.name) # get the unique name for directory
+        temp_dir.cleanup() # remove the temp directory
+        new_dir = os.path.join(curr_dir, new_dir) # path to new directory
+        os.mkdir(new_dir) # make the new directory
 
         # write compressed data to a new file with specified file extension
-        compressed_data.tofile(filename + COMPRESSED_FILE_EXTENSION)
+        compressed_data.tofile(new_dir + "/" + os.path.basename(filename) + 
+                               COMPRESSED_FILE_EXTENSION)
+
+        # return the location of compressed file as a string
+        return new_dir
 
 
     def decompress_file(self, filename):
@@ -149,12 +165,16 @@ class HuffFile:
             str: The name of the decompressed file 
         """
         
-        self._validate_file(filename)
-        # confirm file is of correct extension
-        original_filename, file_extension = os.path.splitext(filename)
-        if file_extension != COMPRESSED_FILE_EXTENSION:
-            raise ValueError("Error! File is not of type" + 
-                             COMPRESSED_FILE_EXTENSION)
+        try:
+
+            self._validate_file(filename)
+            # confirm file is of correct extension
+            original_filename, file_extension = os.path.splitext(filename)
+            if file_extension != COMPRESSED_FILE_EXTENSION:
+                raise ValueError("Error! File is not of type" + 
+                                COMPRESSED_FILE_EXTENSION)
+        except ValueError as e:
+            raise CompressionError(str(e))
         
         # open file and read compressed data
         # read binary file
@@ -201,8 +221,6 @@ class HuffFile:
         # return to original filename
         os.rename(filename, original_filename)
 
-def main():
-    hf = HuffFile()
-    hf.compress_file("Two.txt")
-
-main()
+# identify class to raise exceptions from other files
+class CompressionError(Exception):
+    pass

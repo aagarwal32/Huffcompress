@@ -200,3 +200,9 @@ class HuffFile:
 
         # return to original filename
         os.rename(filename, original_filename)
+
+def main():
+    hf = HuffFile()
+    hf.compress_file("Two.txt")
+
+main()

@@ -1,0 +1,89 @@
+As we have seen in this chapter, both the datapath and control for a processor can
+be designed starting with the instruction set architecture and an understanding
+of the basic characteristics of the technology. In Section 4.3, we saw how the
+datapath for an RISC-V processor could be constructed based on the architecture
+and the decision to build a single-cycle implementation. Of course, the underlying
+technology also affects many design decisions by dictating what components can
+be used in the datapath, as well as whether a single-cycle implementation even
+makes sense.
+Pipelining improves throughput but not the inherent execution time, or
+instruction latency, of instructions; for some instructions, the latency is similar
+in length to the single-cycle approach. Multiple instruction issue adds additional
+datapath hardware to allow multiple instructions to begin every clock cycle, but at
+an increase in effective latency. Pipelining was presented as reducing the clock cycle
+time of the simple single-cycle datapath. Multiple instruction issue, in comparison,
+clearly focuses on reducing clock cycles per instruction (CPI).
+Pipelining and multiple issue both attempt to exploit instruction-level
+parallelism. The presence of data and control dependences, which can become
+hazards, are the primary limitations on how much parallelism can be exploited.
+Scheduling and speculation via prediction, both in hardware and in software, are
+the primary techniques used to reduce the performance impact of dependences.
+We showed that unrolling the DGEMM loop four times exposed more
+instructions that could take advantage of the out-of-order execution engine of the
+Core i7 to more than double performance.
+The switch to longer pipelines, multiple instruction issue, and dynamic
+scheduling in the mid-1990s helped sustain the 60% per year processor performance
+increase that started in the early 1980s. As mentioned in Chapter  1, these
+microprocessors preserved the sequential programming model, but they eventually
+ran into the power wall. Thus, the industry was forced to switch to multiprocessors,
+which exploit parallelism at much coarser levels (the subject of Chapter 6). This
+trend has also caused designers to reassess the energy-performance implications
+of some of the inventions since the mid-1990s, resulting in a simplification of
+pipelines in the more recent versions of microarchitectures.
+To sustain the advances in processing performance via parallel processors,
+Amdahl’s law suggests that another part of the system will become the bottleneck.
+That bottleneck is the topic of the next chapter: the memory hierarchy.
+Computers not only need to be fast; they need to be dependable. Since any physical
+device can fail, we make systems dependable by including redundant components that
+can take over when a failure occurs and to help detect failures. We use the tractor-trailer
+as our icon, since the dual tires on each side of its rear axles allow the truck to continue
+driving even when one tire fails. (Presumably, the truck driver heads immediately to a
+repair facility so the flat tire can be fixed, thereby restoring redundancy!)
+In the prior edition, we listed an eighth great idea, which was “Designing for
+Moore’s Law.” Gordon Moore, one of the founders of Intel, made a remarkable
+prediction in 1965: integrated circuit resources would double every year. A decade
+later he amended his prediction to doubling every two years.
+His prediction was accurate, and for 50 years Moore’s law shaped computer
+architecture. As computer designs can take years, the resources available per chip
+(“transistors”; see page 25) could easily double or triple between the start and finish
+of the project. Like a skeet shooter, computer architects had to anticipate where the
+technology would be when the design was finished rather than design for when it began.
+Alas, no exponential growth can last forever, and Moore’s law is no longer
+accurate. The slowing of Moore’s law is shocking for computer designers who
+have long leveraged it. Some do not want to believe it is over despite substantial
+evidence to the contrary. Part of the reason is confusion between saying that
+Moore’s prediction of a biannual doubling rate is now incorrect and claiming that
+semiconductors will no longer improve. Semiconductor technology will continue
+to improve but more slowly than in the past. Starting with this edition, we will
+discuss the implications of the slowing of Moore’s law, especially in Chapter 6.
+Networks vary in length and performance, with the cost of communication
+increasing according to both the speed of communication and the distance that
+information travels. Perhaps the most popular type of network is Ethernet. It
+can be up to a kilometer long and transfer at up to 100 gigabits per second. Its
+length and speed make Ethernet useful to connect computers on the same floor
+of a building; hence, it is an example of what is generically called a local area
+network. Local area networks are interconnected with switches that can also
+provide routing services and security. Wide area networks cross continents
+and are the backbone of the Internet, which supports the web. They are
+typically based on optical fibers and are leased from telecommunication
+companies.
+Networks have changed the face of computing in the last 40 years, both by
+becoming much more ubiquitous and by making dramatic increases in performance.
+In the 1970s, very few individuals had access to electronic mail, the Internet and
+web did not exist, and physically mailing magnetic tapes was the primary way to
+transfer large amounts of data between two locations. Local area networks were
+almost nonexistent, and the few existing wide area networks had limited capacity
+and restricted access.
+As networking technology improved, it became considerably cheaper and
+had a significantly higher capacity. For example, the first standardized local
+area network technology, developed about 40 years ago, was a version of
+Ethernet that had a maximum capacity (also called bandwidth) of 10 million
+bits per second, typically shared by tens of, if not a hundred, computers. Today,
+local area network technology offers a capacity of from 1 to 100 gigabits per
+second, usually shared by at most a few computers. Optical communications
+technology has allowed similar growth in the capacity of wide area networks,
+from hundreds of kilobits to gigabits and from hundreds of computers connected
+to a worldwide network to millions of computers connected. This dramatic
+rise in deployment of networking combined with increases in capacity have
+made network technology central to the information revolution of the last 30
+years.

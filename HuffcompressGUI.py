@@ -25,7 +25,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import ImageTk, Image
 from os import stat, path
-from compress_utilities import HuffFile, COMPRESSED_FILE_EXTENSION
+from compress_file import HuffFile, CompressionError, COMPRESSED_FILE_EXTENSION
 
 # background color - hex format
 bgColor = "#e4e8f0"
@@ -53,7 +53,7 @@ style2.configure('C.TButton', font=('Helvetica', 16, 'bold italic'), foreground=
 # Listener for compress button
 def compressFile():
     # Open a file dailog for the user to select the file to be compressed
-    target_file =  filedialog.askopenfilename(title="Choose a file to compress", filetypes=((".txt","*.txt"),))
+    target_file =  filedialog.askopenfilename(title="Choose a file to compress")
      
     # Displays an error message and exits function when the user does not choose a file to compress
     if(target_file == ''):
@@ -67,13 +67,13 @@ def compressFile():
     hf = HuffFile()
     try:
       new_path = hf.compress_file(target_file)
-    except Exception as e: 
-       messagebox.showerror('Error', "An error occurred during compression: " + e)
+    except CompressionError as e: 
+       messagebox.showerror("Error", str(e))
        return
     
 
     # Size of the file after compression (in bytes)
-    compressed_size = stat(new_path + "\\" + path.basename(target_file) + COMPRESSED_FILE_EXTENSION)
+    compressed_size = stat(new_path + "/" + path.basename(target_file) + COMPRESSED_FILE_EXTENSION)
 
     # Display a compression successful message
     messagebox.showinfo('Compression Successful!', f"File size reduced by {round(((original_size.st_size-compressed_size.st_size))/original_size.st_size*100)}%")

@@ -1,4 +1,5 @@
 import os
+import platform
 import tempfile
 from huffman_tree import HuffmanTree
 import numpy as np
@@ -146,9 +147,23 @@ class HuffFile:
         new_dir = os.path.join(curr_dir, new_dir) # path to new directory
         os.mkdir(new_dir) # make the new directory
 
-        # write compressed data to a new file with specified file extension
-        compressed_data.tofile(new_dir + "/" + os.path.basename(filename) + 
-                               COMPRESSED_FILE_EXTENSION)
+        os_name = platform.system()
+        
+        try:
+
+            if os_name == "Darwin":
+                # write compressed data to a new file with specified file extension
+                compressed_data.tofile(new_dir + "/" + os.path.basename(filename) + 
+                                    COMPRESSED_FILE_EXTENSION)
+            elif os_name == "Windows":
+                # write compressed data to a new file with specified file extension
+                compressed_data.tofile(new_dir + "\\" + os.path.basename(filename) + 
+                                    COMPRESSED_FILE_EXTENSION)
+            else:
+                raise ValueError("Error. This operating system is not supported.")
+        
+        except ValueError as e:
+            raise CompressionError(str(e))
 
         # return the location of compressed file as a string
         return new_dir

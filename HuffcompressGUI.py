@@ -25,6 +25,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import ImageTk, Image
 from os import stat, path
+import platform
 from compress_file import HuffFile, CompressionError, COMPRESSED_FILE_EXTENSION
 
 
@@ -74,9 +75,23 @@ def compressFile():
        messagebox.showerror("Error", str(e))
        return
     
+    os_name = platform.system()
 
-    # Size of the file after compression (in bytes)
-    compressed_size = stat(new_path + "/" + path.basename(target_file) + COMPRESSED_FILE_EXTENSION)
+    try:
+
+      if os_name == "Darwin":
+        # Size of the file after compression (in bytes)
+        compressed_size = stat(new_path + "/" + path.basename(target_file) + COMPRESSED_FILE_EXTENSION)
+      
+      elif os_name == "Windows":
+         compressed_size = stat(new_path + "\\" + path.basename(target_file) + COMPRESSED_FILE_EXTENSION)
+      
+      else:
+         messagebox.showerror("Error", "Operating System not compatible.")
+    
+    except Exception as e:
+       messagebox.showerror("Error", "Unable to locate file: " + e)
+       return
 
     # Display a compression successful message
     messagebox.showinfo('Compression Successful!', f"File size reduced by {round(((original_size.st_size-compressed_size.st_size))/original_size.st_size*100)}%")

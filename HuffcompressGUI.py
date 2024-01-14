@@ -27,28 +27,31 @@ from PIL import ImageTk, Image
 from os import stat, path
 from compress_file import HuffFile, CompressionError, COMPRESSED_FILE_EXTENSION
 
-# background color - hex format
-bgColor = "#e4e8f0"
 
 # Create the main window
 mainWin = tk.Tk()
 mainWin.title("HuffCompress - Lossless Compression Tool")
 mainWin.geometry("400x200")  # Set the size of the window
 mainWin.iconbitmap('./assets/logo.ico') # Set the icon logo of HuffCompress
-mainWin.configure(bg=bgColor)  # Set the background color to a shade of royal blue
+mainWin.configure()
 mainWin.resizable(False, False)  # Lock the window size
 
 # Loading our logo and placing it in the main window
-logo = ImageTk.PhotoImage(Image.open('./assets/logo.png').resize((120,90)))
+logo = ImageTk.PhotoImage(Image.open('./assets/logo.png').resize((260, 180)))
 logoContainer = tk.Label(image=logo)
-logoContainer.configure(bg=bgColor, height="60")  # Set the background color to a shade of royal blue
-logoContainer.pack(side="top", anchor="nw") # Position the logo top-left side of the main window
+logoContainer.configure(height="100")
+logoContainer.pack(side="top", anchor="n") # Position the logo top-left side of the main window
 
 # Styles for buttons
 style1 = ttk.Style() # For compress button
 style2 = ttk.Style() # For decompress button
-style1.configure('W.TButton', font=('Helvetica', 16, 'bold italic'), foreground='#5dbea3')
-style2.configure('C.TButton', font=('Helvetica', 16, 'bold italic'), foreground='#4681f4')
+style1.configure('W.TButton', font=('Helvetica', 16, 'bold'), foreground='#5dbea3')
+style1.map('W.TButton', foreground = [('active', '!disabled', 'green')],
+                        background = [('active', 'black')])
+
+style2.configure('C.TButton', font=('Helvetica', 16, 'bold'), foreground='#4681f4')
+style2.map('C.TButton', foreground = [('active', '!disabled', 'blue')],
+                        background = [('active', 'black')])
 
 # Listener for compress button
 def compressFile():
@@ -102,10 +105,10 @@ def decompressFile():
 
 
 # Create the buttons for compression & decompression
-compressBtn = ttk.Button(mainWin, text="Compress a File", width=20, style='W.TButton', command=compressFile)
-compressBtn.pack(padx=(100,0), pady=(10,0))
-decompressBtn = ttk.Button(mainWin, text="Decompress a File", width=20, style='C.TButton', command=decompressFile)
-decompressBtn.pack(padx=(100,0), pady=(10,0))
+compressBtn = ttk.Button(mainWin, text="Compress File", width=15, style='W.TButton', command=compressFile)
+compressBtn.pack()
+decompressBtn = ttk.Button(mainWin, text="Decompress File", width=15, style='C.TButton', command=decompressFile)
+decompressBtn.pack()
 
 
 # Run the Tkinter event loop

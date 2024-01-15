@@ -1,6 +1,6 @@
 # Huffcompress
 
-![huffcompress-logo](https://github.com/aagarwal32/Huffcompress/assets/152243328/4f7e0296-5e59-4f5c-8cb9-6f40884572d6)
+![huffcompress-logo-2](https://github.com/aagarwal32/Huffcompress/assets/152243328/ecdfbf05-b85a-4260-a27c-ced7cb2c9615)
 
 ## Description
 
@@ -13,6 +13,31 @@
 <p>
   After a file is compressed, a ".huff" extension is added. Only files with ".huff" extension added during compression can be decompressed.
 </p>
+
+### GUI
+<p align="center">
+<img alt="huffcompress gui" src="https://github.com/aagarwal32/Huffcompress/assets/152243328/26cd28f5-1b37-42f4-9dcb-ca908b4f8da0">
+</p>
+<p>
+  A simple, user-friendly GUI allows users to easily choose a file to compress/decompress. This tool is robust with comprehensive error-checking that displays error-message boxes for incompatible operating systems, file types, and more. 
+</p>
+
+<p>
+  After successful compression, a message box displays the percent compressed as shown in the image below:
+</p>
+
+<p align="center">
+  <img alt="huffcompress percent compressed gui" src="https://github.com/aagarwal32/Huffcompress/assets/152243328/4eca78f0-9d62-418e-ae01-09fde81d2f09">
+</p>
+
+## Installation (macOS and Windows)
+
+Make sure Python3 is installed before following the steps below:
+
+1. Download the zipped file from the ```Releases``` section
+2. Using the command line, navigate to the ```root directory``` of the program. For ex: cd path/to/huffcompress
+3. To ensure you have the required 3rd-party libraries for this tool, run ```pip install -r requirements.txt```
+4. Finally, run HuffcompressGUI.py script in the command line by typing ```python3 HuffcompressGUI.py```  
 
 ## Collaborators
 <ul>

@@ -32,6 +32,8 @@
 
 ## Installation (macOS and Windows)
 
+Make sure Python3 is installed before following the steps below:
+
 1. Download the zipped file from the ```Releases``` section
 2. Using the command line, navigate to the ```root directory``` of the program. For ex: cd path/to/huffcompress
 3. To ensure you have the required 3rd-party libraries for this tool, run ```pip install -r requirements.txt```

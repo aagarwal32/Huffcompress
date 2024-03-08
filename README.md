@@ -13,8 +13,7 @@
 <p>
   After a file is compressed, a ".huff" extension is added. Only files with ".huff" extension added during compression can be decompressed.
 </p>
-
-### GUI
+  <h3 align="center">GUI</h3>
 <p align="center">
 <img alt="huffcompress gui" src="https://github.com/aagarwal32/Huffcompress/assets/152243328/26cd28f5-1b37-42f4-9dcb-ca908b4f8da0">
 </p>
@@ -45,7 +44,7 @@ Make sure Python3 is installed before following the steps below:
   <li>Harshavardan Yuvaraj (<a href="https://www.linkedin.com/in/harsha-yuvaraj/">LinkedIn</a>)</li>
 </ul>
 
-## First Release (In progress)
+## First Release
 <ul>
   <li>File compression........ completed.</li>
   <li>File decompression........ completed.</li>

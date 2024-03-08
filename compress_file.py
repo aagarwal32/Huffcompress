@@ -148,7 +148,7 @@ class HuffFile:
         os.mkdir(new_dir) # make the new directory
 
         os_name = platform.system()
-        
+        # use os.path.join for new_dir, os.path.basename(filename) + COMPRESSED_FILE_EXTENSION
         try:
 
             if os_name == "Darwin":

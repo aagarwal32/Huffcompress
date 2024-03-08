@@ -77,6 +77,8 @@ def compressFile():
     
     os_name = platform.system()
 
+    # use os.path.join for new_path, path.basename(target_file) + COMPRESSED_FILE_EXTENSION
+
     try:
 
       if os_name == "Darwin":
